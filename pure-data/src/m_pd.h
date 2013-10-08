@@ -2,6 +2,13 @@
 * For information on usage and redistribution, and for a DISCLAIMER OF ALL
 * WARRANTIES, see the file, "LICENSE.txt," in this distribution.  */
 
+#if __APPLE__
+// The Accelerate framework is a library of tuned vector operations
+#include <Accelerate/Accelerate.h>
+#include <string.h>
+#define USE_ACCEL_OPTIM 1
+#endif
+
 #ifndef __m_pd_h_
 
 #if defined(_LANGUAGE_C_PLUS_PLUS) || defined(__cplusplus)

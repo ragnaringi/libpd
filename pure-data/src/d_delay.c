@@ -193,11 +193,23 @@ static t_int *sigdelread_perform(t_int *w)
     if (phase < 0) phase += nsamps;
     bp = vp + phase;
 
+#if USE_ACCEL_OPTIM
+    if (bp + n > ep - 1) {
+        while (n--)
+        {
+            *out++ = *bp++;
+            if (bp == ep) bp -= nsamps;
+        }
+    } else {
+        memcpy(out, bp, n*sizeof(t_sample));
+    }
+#else
     while (n--)
     {
         *out++ = *bp++;
         if (bp == ep) bp -= nsamps;
     }
+#endif
     return (w+5);
 }
 

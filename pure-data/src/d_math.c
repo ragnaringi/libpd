@@ -248,6 +248,9 @@ static t_int *sigwrap_perform(t_int *w)
 {
     t_sample *in = *(t_sample **)(w+1), *out = *(t_sample **)(w+2);
     t_int n = *(t_int *)(w+3);
+#if USE_ACCEL_OPTIM
+    vDSP_vfrac(in, 1, out, 1, n);
+#else
     while (n--)
     {   
         t_sample f = *in++;
@@ -255,6 +258,7 @@ static t_int *sigwrap_perform(t_int *w)
         if (f > 0) *out++ = f-k;
         else *out++ = f - (k-1);
     }
+#endif
     return (w + 4);
 }
 
